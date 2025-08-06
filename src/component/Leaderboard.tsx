@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -17,50 +16,6 @@ import { Trophy } from "lucide-react";
 
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
-  const invoices = [
-    {
-      place: "1",
-      gamerTag: "Paid",
-      points: "$250.00",
-      prize: "Credit Card",
-    },
-    {
-      place: "2",
-      gamerTag: "Pending",
-      points: "$150.00",
-      prize: "PayPal",
-    },
-    {
-      place: "3",
-      gamerTag: "Unpaid",
-      points: "$350.00",
-      prize: "Bank Transfer",
-    },
-    {
-      place: "4",
-      gamerTag: "Paid",
-      points: "$450.00",
-      prize: "Credit Card",
-    },
-    {
-      place: "5",
-      gamerTag: "Paid",
-      points: "$550.00",
-      prize: "PayPal",
-    },
-    {
-      place: "6",
-      gamerTag: "Pending",
-      points: "$200.00",
-      prize: "Bank Transfer",
-    },
-    {
-      place: "7",
-      gamerTag: "Unpaid",
-      points: "$300.00",
-      prize: "Credit Card",
-    },
-  ];
 
   useEffect(() => {
     const fetchUsers = async () => {
