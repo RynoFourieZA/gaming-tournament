@@ -22,10 +22,12 @@ const Leaderboard = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/users`
+          "https://jsonplaceholder.typicode.com/users"
         );
         if (response?.data !== null) {
           setIsLoading(false);
+          console.log("response?.data: ", response?.data);
+          
           setUsers(response?.data);
         } else {
           setIsLoading(true);
@@ -69,6 +71,8 @@ const Leaderboard = () => {
     leaderboardAvatar[2],
   ];
 
+  console.log("isLoading: ", gamers);
+  
   return (
     <section className="game-bg-6 py-8">
       {!isLoading ? (
@@ -77,7 +81,7 @@ const Leaderboard = () => {
             Tournament Leaderboard
           </h2>
           <div className="flex justify-center mb-20">
-            {topThreeGamersOrdered?.map((topGamer, index) => {
+            {topThreeGamersOrdered.filter(Boolean).map((topGamer, index) => {
               let prize: number;
               if (index === 0) {
                 prize = tournamentPrizeOrdered[index];
@@ -102,7 +106,7 @@ const Leaderboard = () => {
                       <Trophy color="black" size={24} className="mb-2" />
                     </div>
                     <p className="text-lg font-bold text-white mb-2">
-                      {topGamer.username.toUpperCase()}
+                      {topGamer?.username?.toUpperCase()}
                     </p>
                     <p className="text-sm font-bold text-yellow-300 mb-2">
                       {topGamer.points} points
@@ -141,6 +145,8 @@ const Leaderboard = () => {
                     } else {
                       prize = 1000;
                     }
+
+
                     return (
                       <TableRow key={`${username}-${id}`}>
                         <TableCell className="font-medium text-white p-2 hover:bg-amber-300">
