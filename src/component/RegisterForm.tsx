@@ -36,7 +36,7 @@ const RegisterForm = () => {
       name: "",
       gamerTag: "",
       email: "",
-      favoriteGameTitle: "F",
+      favoriteGameTitle: "",
     },
   });
 
