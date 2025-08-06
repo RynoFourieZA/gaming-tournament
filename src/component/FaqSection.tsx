@@ -40,7 +40,7 @@ const FaqSection = () => {
     },
   ];
   return (
-    <section className="game-bg-7 py-8">
+    <section className="game-bg-7 py-8" id="faq">
       <div className="max-w-screen-xl flex justify-between mx-auto px-4 py-8">
         <div className="w-[45%]">
           <h2 className="text-2xl font-semibold mb-4 text-white">

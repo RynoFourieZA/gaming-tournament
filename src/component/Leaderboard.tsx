@@ -70,11 +70,9 @@ const Leaderboard = () => {
     leaderboardAvatar[0],
     leaderboardAvatar[2],
   ];
-
-  console.log("isLoading: ", gamers);
   
   return (
-    <section className="game-bg-6 py-8">
+    <section className="game-bg-6 py-8" id="leaderboard">
       {!isLoading ? (
         <div className="max-w-screen-xl flex flex-col mx-auto px-4 py-8">
           <h2 className="text-5xl font-bold text-white mb-20 text-center">

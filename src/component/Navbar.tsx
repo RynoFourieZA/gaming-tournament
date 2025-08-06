@@ -35,7 +35,7 @@ const Navbar = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#register"
               className="block py-2 px-3 text-white hover:text-blue-600"
             >
               Register
@@ -43,7 +43,7 @@ const Navbar = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#leaderboard"
               className="block py-2 px-3 text-white hover:text-blue-600"
             >
               Leaderboard
@@ -51,7 +51,7 @@ const Navbar = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#faq"
               className="block py-2 px-3 text-white hover:text-blue-600"
             >
               FAQ

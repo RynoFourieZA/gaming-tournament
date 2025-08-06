@@ -41,12 +41,11 @@ const RegisterForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Test", values);
     localStorage.setItem("gamingRegistration", JSON.stringify(values));
   }
 
   return (
-    <section className="game-bg-2 py-8">
+    <section className="game-bg-2 py-8" id='register'>
       <div className="max-w-screen-xl flex justify-between mx-auto px-4 py-8">
         <div className="w-full md:w-[45%] p-6">
           <h2 className="text-3xl font-bold text-white mb-4">
