@@ -16,6 +16,7 @@ import { Trophy } from "lucide-react";
 
 const Leaderboard = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -24,7 +25,10 @@ const Leaderboard = () => {
           `${import.meta.env.VITE_BASE_URL}/users`
         );
         if (response?.data !== null) {
+          setIsLoading(false);
           setUsers(response?.data);
+        } else {
+          setIsLoading(true);
         }
       } catch (error) {
         console.error("Failed to retrieve users:", error);
@@ -33,7 +37,6 @@ const Leaderboard = () => {
     fetchUsers();
   }, []);
 
-  
   const gamers = users?.map(
     (user: { id: number; username: string; address: { zipcode: string } }) => {
       const points: number = +user.address.zipcode.slice(0, 3);
@@ -68,89 +71,101 @@ const Leaderboard = () => {
 
   return (
     <section className="game-bg-6 py-8">
-      <div className="max-w-screen-xl flex flex-col mx-auto px-4 py-8">
-        <h2 className="text-5xl font-bold text-white mb-20 text-center">
-          Tournament Leaderboard
-        </h2>
-        <div className="flex justify-center mb-20">
-          {topThreeGamersOrdered?.map((topGamer, index) => {
-            let prize: number;
-            if (index === 0) {
-              prize = tournamentPrizeOrdered[index];
-            } else if (index === 1) {
-              prize = tournamentPrizeOrdered[index];
-            } else {
-              prize = tournamentPrizeOrdered[tournamentPrizeOrdered.length - 1];
-            }
+      {!isLoading ? (
+        <div className="max-w-screen-xl flex flex-col mx-auto px-4 py-8">
+          <h2 className="text-5xl font-bold text-white mb-20 text-center">
+            Tournament Leaderboard
+          </h2>
+          <div className="flex justify-center mb-20">
+            {topThreeGamersOrdered?.map((topGamer, index) => {
+              let prize: number;
+              if (index === 0) {
+                prize = tournamentPrizeOrdered[index];
+              } else if (index === 1) {
+                prize = tournamentPrizeOrdered[index];
+              } else {
+                prize =
+                  tournamentPrizeOrdered[tournamentPrizeOrdered.length - 1];
+              }
 
-            return (
-              <div className="p-4 border-2 border-white flex-row mx-8 rounded-4xl bg-white/15 hover:bg-green-500/24 hover:border-blue-700">
-                <img src={leaderboardOrdered[index].image} />
-                <div className="flex flex-col items-center mt-4">
-                  <div className="p-2 rounded-lg flex" style={{background: leaderboardOrdered[index].color}}>
-                    <p className="text-lg font-semibold mr-1">{leaderboardOrdered[index].place}</p>
-                    <Trophy
-                      color="black"
-                      size={24}
-                      className="mb-2"
-                    />
-                  </div>
-                  <p className="text-lg font-bold text-white mb-2">
-                    {topGamer.username.toUpperCase()}
-                  </p>
-                  <p className="text-sm font-bold text-yellow-300 mb-2">
-                    {topGamer.points} points
-                  </p>
-                  <p className="text-2xl font-bold text-white mb-2">
-                    R {prize}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="flex justify-center">
-          <Table className="w-[80%] mx-auto">
-            <TableCaption>
-              A list of your users participating in the tournament.
-            </TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px] text-white">Place</TableHead>
-                <TableHead className="text-white">Gamer tag</TableHead>
-                <TableHead className="text-white">Points</TableHead>
-                <TableHead className="text-right text-white">Prize</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {gamersSortedByPoints?.map(({ id, username, points }, index) => {
-                let prize: number;
-                if (index === 0) {
-                  prize = tournamentPrize[index];
-                } else if (index === 1) {
-                  prize = tournamentPrize[index];
-                } else if (index === 2) {
-                  prize = tournamentPrize[index];
-                } else {
-                  prize = 1000;
-                }
-                return (
-                  <TableRow key={`${username}-${id}`}>
-                    <TableCell className="font-medium text-white p-2 hover:bg-amber-300">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell className="text-white p-2">{username}</TableCell>
-                    <TableCell className="text-white p-2">{points}</TableCell>
-                    <TableCell className="text-right text-white p-2">
+              return (
+                <div className="p-4 border-2 border-white flex-row mx-8 rounded-4xl bg-white/15 hover:bg-green-500/24 hover:border-blue-700">
+                  <img src={leaderboardOrdered[index].image} />
+                  <div className="flex flex-col items-center mt-4">
+                    <div
+                      className="p-2 rounded-lg flex"
+                      style={{ background: leaderboardOrdered[index].color }}
+                    >
+                      <p className="text-lg font-semibold mr-1">
+                        {leaderboardOrdered[index].place}
+                      </p>
+                      <Trophy color="black" size={24} className="mb-2" />
+                    </div>
+                    <p className="text-lg font-bold text-white mb-2">
+                      {topGamer.username.toUpperCase()}
+                    </p>
+                    <p className="text-sm font-bold text-yellow-300 mb-2">
+                      {topGamer.points} points
+                    </p>
+                    <p className="text-2xl font-bold text-white mb-2">
                       R {prize}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex justify-center">
+            <Table className="w-[80%] mx-auto">
+              <TableCaption>
+                A list of your users participating in the tournament.
+              </TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px] text-white">Place</TableHead>
+                  <TableHead className="text-white">Gamer tag</TableHead>
+                  <TableHead className="text-white">Points</TableHead>
+                  <TableHead className="text-right text-white">Prize</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {gamersSortedByPoints?.map(
+                  ({ id, username, points }, index) => {
+                    let prize: number;
+                    if (index === 0) {
+                      prize = tournamentPrize[index];
+                    } else if (index === 1) {
+                      prize = tournamentPrize[index];
+                    } else if (index === 2) {
+                      prize = tournamentPrize[index];
+                    } else {
+                      prize = 1000;
+                    }
+                    return (
+                      <TableRow key={`${username}-${id}`}>
+                        <TableCell className="font-medium text-white p-2 hover:bg-amber-300">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="text-white p-2">
+                          {username}
+                        </TableCell>
+                        <TableCell className="text-white p-2">
+                          {points}
+                        </TableCell>
+                        <TableCell className="text-right text-white p-2">
+                          R {prize}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-2xl">Loading...</p>
+      )}
     </section>
   );
 };
